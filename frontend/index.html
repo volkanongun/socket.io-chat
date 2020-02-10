@@ -57,18 +57,37 @@
 			return false;
 		})
 
-		socket.on('connect', () => {
-			console.log('connected!');
-			username = getName();
-            socket.emit('join', username);
-            document.querySelector("form label").innerHTML = username;
-	   	})
+		var ua = navigator.userAgent.toLowerCase(); 
+		console.log(ua)
 
-		socket.on('chat message', function(msg){
-			let listItem = document.createElement("li");
-			listItem.innerHTML = msg;
-			document.querySelector("#messages").append(listItem);
-		});
+		if (ua.indexOf('chrome') || ua.indexOf('firefox') || ua.indexOf('MSIE ') > -1) { 
+			console.log("not safari");
+			
+			socket.on('connect', () => {
+				console.log('connected!');
+				username = getName();
+	            socket.emit('join', username);
+	            document.querySelector("form label").innerHTML = username;
+		   	})
+
+			socket.on('chat message', function(msg){
+				let listItem = document.createElement("li");
+				listItem.innerHTML = msg;
+				document.querySelector("#messages").append(listItem);
+			});
+		}
+
+		//   document.addEventListener('DOMContentLoaded', function(){
+		//   	socket.on('connect', () => {
+		// 		console.log('connected!');
+		// 		username = getName();
+	 //            socket.emit('join', username);
+	 //            document.querySelector("form label").innerHTML = username;
+		//    	})
+		//   }, false);
+		// } else{
+		// 	
+		
 
 	</script>
 </body>
