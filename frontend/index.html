@@ -23,8 +23,9 @@
 		.game{position: relative;}
 	
 		form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; z-index:1; }
-		form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+		form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; }
 		form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+		form label {color: white;}
 		#messages { list-style-type: none; margin: 0; padding: 0;position: fixed; top:0;left: 0;z-index: 1 }
 		#messages li { padding: 5px 10px; }
 		#messages li:nth-child(odd) { background: #eee; }
@@ -35,7 +36,8 @@
 	<ul id="messages"></ul>
     
     <form id="chatForm">
-      <input id="m" autocomplete="off" /><button>Send</button>
+		<label>Username</label>
+		<input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
     <script src="/io/socket.io.js"></script>
@@ -59,6 +61,7 @@
 			console.log('connected!');
 			username = getName();
             socket.emit('join', username);
+            document.querySelector("form label").innerHTML = username;
 	   	})
 
 		socket.on('chat message', function(msg){
