@@ -40,6 +40,8 @@
 		<input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
+    <img src="" alt="" id="webcam-image">
+
     <script src="/io/socket.io.js"></script>
 	
 	<script>
@@ -74,6 +76,11 @@
 				let listItem = document.createElement("li");
 				listItem.innerHTML = msg;
 				document.querySelector("#messages").append(listItem);
+			});
+
+			socket.on('image', (data) => {
+				const im = document.getElementById('webcam-image');
+				im.src = `data:image/jpeg;base64,${data}`
 			});
 		}
 
