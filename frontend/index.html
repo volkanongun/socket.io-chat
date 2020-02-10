@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>THREE.js Game</title>
+	<style>
+
+		html {
+		  line-height: 1.15; /* 1 */
+		  -webkit-text-size-adjust: 100%; /* 2 */
+		}
+
+		html,body {
+		  margin: 0;
+		  padding: 0;
+		  overflow: hidden;
+		}
+
+		body{
+			background-color: #ccccff;
+		}
+
+		.game{position: relative;}
+	
+		form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; z-index:1; }
+		form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+		form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+		#messages { list-style-type: none; margin: 0; padding: 0;position: fixed; top:0;left: 0;z-index: 1 }
+		#messages li { padding: 5px 10px; }
+		#messages li:nth-child(odd) { background: #eee; }
+	</style>
+</head>
+<body>
+	
+	<ul id="messages"></ul>
+    <form id="chatForm">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+	<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+
+    <script src="/io/socket.io.js"></script>
+	<script src="/three/three.min.js"></script>
+	
+	<script>
+		
+		let camera, scene, renderer;
+		let geometry, material, mesh;
+
+		init();
+		animate();
+
+		function init() {
+			scene = new THREE.Scene();
+	
+			// CAMERA
+			var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+			var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+			camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+			scene.add(camera);
+			camera.position.set(0,150,400);
+			camera.lookAt(scene.position);
+	
+			// RENDERER
+			renderer = new THREE.WebGLRenderer( {antialias:true} );
+			renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+			container = document.getElementById( 'ThreeJS' );
+			container.appendChild( renderer.domElement );
+	
+			// LIGHT
+			var light = new THREE.PointLight(0xffffff);
+			light.position.set(100,250,100);
+			scene.add(light);
+	
+			// SKYBOX
+			var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+			var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+			var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+			scene.add(skyBox);
+	
+			////////////
+			// CUSTOM //
+			////////////
+			
+			var geometry = new THREE.SphereGeometry( 30, 32, 16 );
+			var material = new THREE.MeshLambertMaterial( { color: 0x000088 } );
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.position.set(0,40,0);
+			scene.add(mesh);
+
+			geometry = new THREE.IcosahedronGeometry( 100, 1 );
+			material = new THREE.MeshBasicMaterial( { color: 0x000000,
+			wireframe: true, wireframeLinewidth: 2 } );
+			mesh = new THREE.Mesh( geometry, material );
+			scene.add( mesh );
+		}
+
+		function animate() {
+			requestAnimationFrame( animate );
+			mesh.rotation.x = Date.now() * 0.00005;
+			mesh.rotation.y = Date.now() * 0.0001;
+			renderer.render( scene, camera );
+		}
+
+		const socket = io();
+
+		document.getElementById('chatForm').addEventListener('submit', function(evt){
+			evt.preventDefault();
+			socket.emit('chat message', document.querySelector("#m").value);
+		})
+
+		socket.on('chat message', function(msg){
+			let listItem = document.createElement("li");
+			listItem.innerHTML = msg;
+			document.querySelector("#messages").append(listItem);
+		});
+
+	</script>
+</body>
+</html>
+
+
+
