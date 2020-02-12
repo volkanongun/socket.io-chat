@@ -8,9 +8,6 @@ const server = http.Server(app);
 const io = new SocketIO(server);
 
 const FPS = 10;
-// const wCap = new cv.VideoCapture(0);
-// wCap.set(cv.CAP_PROP_FRAME_WIDTH, 300);
-// wCap.set(cv.CAP_PROP_FRAME_HEIGHT, 300);
 
 app.use(express.static(__dirname + '/frontend'));
 app.use('/io',express.static(__dirname + '/node_modules/socket.io-client/dist/'));
@@ -34,10 +31,5 @@ io.on('connection', function(socket){
   });
 });
 
-// setInterval(() => {
-//   const frame = wCap.read();
-//   const image = cv.imencode('.jpg', frame).toString('base64');
-//   io.emit('image', image)
-// }, 1000 / FPS)
 
 server.listen(4000,() => console.log('Server running on port 4000'));
