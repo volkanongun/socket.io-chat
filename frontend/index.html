@@ -60,6 +60,10 @@
 		var ua = navigator.userAgent.toLowerCase(); 
 		console.log(ua)
 
+		if (ua.indexOf('safari') > -1) {
+			console.log("safari foobar");
+		}
+
 		if (ua.indexOf('chrome') || ua.indexOf('firefox') || ua.indexOf('MSIE ') > -1) { 
 			console.log("not safari");
 			
@@ -76,11 +80,10 @@
 				document.querySelector("#messages").append(listItem);
 			});
 
-			socket.on('image', (data) => {
-				const im = document.getElementById('webcam-image');
-				im.src = `data:image/jpeg;base64,${data}`
+			socket.on('join', (name) => {
+				console.log(name, " ∆∆∆");
 			});
-		}
+		} 
 
 	</script>
 </body>
