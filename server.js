@@ -1,4 +1,4 @@
-import cv from 'opencv4nodejs';
+// import cv from 'opencv4nodejs';
 import express from 'express';
 import http from 'http';
 import SocketIO from 'socket.io';
@@ -8,9 +8,9 @@ const server = http.Server(app);
 const io = new SocketIO(server);
 
 const FPS = 10;
-const wCap = new cv.VideoCapture(0);
-wCap.set(cv.CAP_PROP_FRAME_WIDTH, 300);
-wCap.set(cv.CAP_PROP_FRAME_HEIGHT, 300);
+// const wCap = new cv.VideoCapture(0);
+// wCap.set(cv.CAP_PROP_FRAME_WIDTH, 300);
+// wCap.set(cv.CAP_PROP_FRAME_HEIGHT, 300);
 
 app.use(express.static(__dirname + '/frontend'));
 app.use('/io',express.static(__dirname + '/node_modules/socket.io-client/dist/'));
