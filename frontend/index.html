@@ -40,7 +40,7 @@
 		<input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
-    <img src="" alt="" id="webcam-image">
+    <!-- <img src="" alt="" id="webcam-image"> -->
 
     <script src="/io/socket.io.js"></script>
 	
@@ -78,10 +78,10 @@
 				document.querySelector("#messages").append(listItem);
 			});
 
-			socket.on('image', (data) => {
-				const im = document.getElementById('webcam-image');
-				im.src = `data:image/jpeg;base64,${data}`
-			});
+			// socket.on('image', (data) => {
+			// 	const im = document.getElementById('webcam-image');
+			// 	im.src = `data:image/jpeg;base64,${data}`
+			// });
 		}
 
 		//   document.addEventListener('DOMContentLoaded', function(){

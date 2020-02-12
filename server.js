@@ -34,10 +34,10 @@ io.on('connection', function(socket){
   });
 });
 
-setInterval(() => {
-  const frame = wCap.read();
-  const image = cv.imencode('.jpg', frame).toString('base64');
-  io.emit('image', image)
-}, 1000 / FPS)
+// setInterval(() => {
+//   const frame = wCap.read();
+//   const image = cv.imencode('.jpg', frame).toString('base64');
+//   io.emit('image', image)
+// }, 1000 / FPS)
 
 server.listen(4000,() => console.log('Server running on port 4000'));
